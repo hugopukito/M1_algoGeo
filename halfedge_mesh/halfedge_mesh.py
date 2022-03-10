@@ -368,12 +368,12 @@ class HalfedgeMesh:
         result = [] 
 
         for i in range(self.nbCC):
-            nbVertices = len(self.vertices)
-            nbEdges = len(self.halfedges)/2
-            nbFaces = len(self.facets)
+            nbVertices = len([x for x in self.vertices if x.CC == i])
+            nbEdges = len([x for x in self.halfedges if x.vertex.CC == i])/2
+            nbFaces = len([x for x in self.facets if x.halfedge.vertex.CC == i])
             X = nbVertices - nbEdges + nbFaces
             g = (2-X)/2
-            result.append(g if g>0 else 0)
+            result.append(g)
         
         return result
  
