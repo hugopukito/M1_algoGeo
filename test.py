@@ -1,7 +1,7 @@
 import halfedge_mesh
 
 # .off are supported
-mesh = halfedge_mesh.HalfedgeMesh("tests/data/cube.off")
+mesh = halfedge_mesh.HalfedgeMesh("tests/data/mesh02.off")
 
 # Returns a list of Vertex type (in order of file)--similarly for halfedges,
 # and facets
@@ -20,4 +20,8 @@ mesh.halfedges[10]
 # Iterate over the vertices of the mesh
 mesh.save_vertices("tests/data/cube2.off")
 
-print(mesh.get_distances(0))
+#print(mesh.get_distances(0))
+
+i = mesh.parcoursGraph()
+print(i)
+print(mesh.calculX(i))

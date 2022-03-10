@@ -341,6 +341,44 @@ class HalfedgeMesh:
             print("Value error: {0}:".format(e))
             return
 
+    def parcoursGraph(self):
+        for v in self.vertices:
+            v.CC = -1
+        self.nbCC = 0
+
+        for v in self.vertices:
+            if v.CC == -1:
+                self.colorierCC(v, self.nbCC)
+                self.nbCC += 1
+
+        return self.nbCC
+
+    def colorierCC(self, s, label):
+        if s.CC == -1:
+            ouverts = [s]
+            s.CC = label
+            while ouverts:
+                v1 = ouverts.pop()
+                for v2 in v1.voisins():
+                    if v2.CC == -1:
+                        v2.CC = label
+                        ouverts.append(v2)
+
+    def calculX(self, c):
+        result = [] 
+
+        for i in range(self.nbCC):
+            nbVertices = len(self.vertices)
+            nbEdges = len(self.halfedges)/2
+            nbFaces = len(self.facets)
+            X = nbVertices - nbEdges + nbFaces
+            g = (2-X)/2
+            result.append(g if g>0 else 0)
+        
+        return result
+ 
+
+
 
 class Vertex:
 
@@ -376,6 +414,19 @@ class Vertex:
     
     def distance(self, v):
         return norm(create_vector(self.get_vertex(), v.get_vertex()))
+
+    def voisins(self):
+        result =[]  
+        # pour tous les voisins de cet élément maj dist et pred si nécessaire
+        e = self.halfedge
+        eFirst = e
+        first = True
+        while first or e != eFirst:
+            first = False
+            # pour chaque voisin de v_min
+            result.append(e.opposite.vertex)
+            e = e.next_around_vertex()
+        return result
 
 
 class Facet:
