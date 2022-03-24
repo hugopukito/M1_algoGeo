@@ -300,7 +300,7 @@ class HalfedgeMesh:
 
         self.halfedges = hlist
     
-    def save_vertices(self, filename, vertices_values = []):
+    def save_vertices(self, filename, vertices_values = [], facets_values = []):
         with_v_colors = len(vertices_values) == len(self.vertices)
         if with_v_colors:
             min_v_values = min(vertices_values)
