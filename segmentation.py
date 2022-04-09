@@ -6,6 +6,7 @@ import math
 
 mesh = halfedge_mesh.HalfedgeMesh("tests/data/cube_seg.off")
 filename = "tests/data/cube_seg2.off"
+filename2 = "tests/data/cube_seg3.off"
 
 def moyenne_angle():
 
@@ -48,11 +49,40 @@ def truncate(num):
         temp2 += temp[i]
     return temp2
 
-def colorier(filename, l):
-    mesh.save_vertices(filename, valeurs)
+def truncate2(num, seuil):
+  if (num < seuil):
+    return "1.000"
+  else:
+    return "0.000"
+
+def colorier(filename, l, type):
+    mesh.save_vertices(filename, l, type)
+
+def coloriertwoClass(l):
+
+    l2 = []
+
+    #valeur déjà entre 0 et 1
+    moyenne = 0.0
+    for j in l:
+      moyenne += float(j)
+    moyenne = moyenne / len(l)
+    
+    for j in l:
+      l2.append(truncate2(float(j), moyenne))
+
+    return l2
+
+def colorier2(filename, l, type):
+    mesh.save_vertices(filename, l, type)
+    
 
 valeurs = moyenne_angle()
 valeurs = moyenne_angle_min_max(valeurs)
-print(valeurs)
-colorier(filename, valeurs)
+#print(valeurs)
+#colorier(filename, valeurs, "firstSeg")
+valeurs2 = coloriertwoClass(valeurs)
+#print(valeurs2)
+colorier2(filename2, valeurs2, "TwoClassSeg")
+
 

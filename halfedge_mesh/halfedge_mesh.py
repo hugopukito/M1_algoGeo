@@ -300,7 +300,7 @@ class HalfedgeMesh:
 
         self.halfedges = hlist
     
-    def save_vertices(self, filename, valeurs):
+    def save_vertices(self, filename, valeurs, segType):
 
         try:
             with open(filename, 'w') as file:
@@ -313,18 +313,17 @@ class HalfedgeMesh:
                 # for each vertex write its coordinates
                 for v in self.vertices:
                     file.write(str(v.x) + " " + str(v.y) + " " + str(v.z))
-                    if False:
-                        if vertices_values[v.index] < 0: # composante connexe non atteinte
-                            file.write("255 255 0")
-                        else:
-                            x = int(255 * (vertices_values[v.index] - min_v_values) / (max_v_values - min_v_values))
-                            file.write(" 255 " + str(x) + " " + str(x))
                     file.write("\n")   
 
                 # for each facet write the corresponding line 
                 # red: x
                 # gre: 0.5
                 # blu: 1-x
+
+                # or
+                # red: x^2
+                # gre: 0.5
+                # blue: (1-x)^2
 
                 cpt = 0
 
@@ -343,9 +342,17 @@ class HalfedgeMesh:
                   return temp2
 
                 for f in self.facets:
-                    file.write("3 " + str(f.a) + " " + str(f.b) + " " + str(f.c) + " ")
-                    file.write(str(valeurs[cpt]) + " " + "0.500 " + str(truncate(1-float(valeurs[cpt]))) + "\n")
-                    cpt += 1
+                    if segType == "firstSeg":
+                      file.write("3 " + str(f.a) + " " + str(f.b) + " " + str(f.c) + " ")
+                      file.write(str(valeurs[cpt]) + " " + "0.500 " + str(truncate(1-float(valeurs[cpt]))) + "\n")
+                      cpt += 1
+                    elif segType == "TwoClassSeg":
+                      file.write("3 " + str(f.a) + " " + str(f.b) + " " + str(f.c) + " ")
+                      file.write(str(valeurs[cpt]) + " " + str(valeurs[cpt]) + " " + str(valeurs[cpt]) + "\n")
+                      cpt += 1
+                      
+
+                    
 
 
         except IOError as e:
