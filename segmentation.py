@@ -26,18 +26,33 @@ def mettre_degre(l):
     for i in l:
         print((i/math.pi)*180)
 
-def colorier(l):
+def moyenne_angle_min_max(l):
 
     l2 = []
     
     for i in l:
-        l2.append((i-min(l))/(max(l)-min(l)))
+      j = (i-min(l))/(max(l)-min(l))
+      l2.append(truncate(j))
     
     return l2
 
+def truncate(num):
+    temp = str(num)
+    temp2 = ""
+    if temp == "0.0":
+      temp2 = "0.000"
+    elif temp == "1.0":
+      temp2 = "1.000"
+    else:
+      for i in range(5):
+        temp2 += temp[i]
+    return temp2
 
+def colorier(filename, l):
+    mesh.save_vertices(filename, valeurs)
 
-l = moyenne_angle()
-print(colorier(l))
-
+valeurs = moyenne_angle()
+valeurs = moyenne_angle_min_max(valeurs)
+print(valeurs)
+colorier(filename, valeurs)
 
