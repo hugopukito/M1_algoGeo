@@ -346,6 +346,13 @@ class HalfedgeMesh:
                       file.write("3 " + str(f.a) + " " + str(f.b) + " " + str(f.c) + " ")
                       file.write(str(valeurs[cpt]) + " " + "0.500 " + str(truncate(1-float(valeurs[cpt]))) + "\n")
                       cpt += 1
+
+                    elif segType == "secondSeg":
+                        temp = float(valeurs[cpt])
+                        file.write("3 " + str(f.a) + " " + str(f.b) + " " + str(f.c) + " ")
+                        file.write(str(truncate(math.pow(temp,2))) + " " + "0.500 " + str(truncate(math.pow(1-temp,2))) + "\n")
+                        cpt += 1
+                    
                     elif segType == "TwoClassSeg":
                       file.write("3 " + str(f.a) + " " + str(f.b) + " " + str(f.c) + " ")
                       file.write(str(valeurs[cpt]) + " " + str(valeurs[cpt]) + " " + str(valeurs[cpt]) + "\n")

@@ -4,7 +4,7 @@ import math
 # .off are supported
 # mesh = maillage 
 
-mesh = halfedge_mesh.HalfedgeMesh("tests/data/cube_seg.off")
+mesh = halfedge_mesh.HalfedgeMesh("tests/data/cub_smooth.off")
 filename = "tests/data/cube_seg2.off"
 filename2 = "tests/data/cube_seg3.off"
 
@@ -79,8 +79,8 @@ def colorier2(filename, l, type):
 
 valeurs = moyenne_angle()
 valeurs = moyenne_angle_min_max(valeurs)
-#print(valeurs)
-#colorier(filename, valeurs, "firstSeg")
+print(valeurs)
+colorier(filename, valeurs, "firstSeg")
 valeurs2 = coloriertwoClass(valeurs)
 #print(valeurs2)
 colorier2(filename2, valeurs2, "TwoClassSeg")
